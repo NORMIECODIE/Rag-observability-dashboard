@@ -23,3 +23,30 @@ def ask_llm(
 
     except Exception as e:
         return f"Error calling Gemini LLM: {e}"
+
+
+
+def generate_from_messages(
+        messages: list[dict],
+        model: str = "gemini-3.5-flash-lite"
+)-> str:
+
+    system_message = messages[0]["content"]
+    user_message = messages[1]["content"]
+
+    try:
+
+        response = client.models.generate_content(
+            model= model,
+            contents= user_message,
+            config= {
+                "system_instruction": system_message
+            }
+        )
+
+
+        return response.text
+
+    except Exception as e:
+
+        return f"Error calling Gemini LLM: {e}"
