@@ -1,6 +1,7 @@
 import os
 
 from google import genai
+from google.genai import types
 from dotenv import load_dotenv
 
 
@@ -39,9 +40,12 @@ def generate_from_messages(
         response = client.models.generate_content(
             model= model,
             contents= user_message,
-            config= {
-                "system_instruction": system_message
-            }
+            config= types.GenerateContentConfig( 
+                system_instruction= system_message,
+                automatic_function_calling= types.AutomaticFunctionCallingConfig(
+                    disable = True
+                )
+            )
         )
 
 

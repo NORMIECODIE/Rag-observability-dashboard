@@ -4,13 +4,15 @@ from app.rag.vector_store import search
 def retrieve(
         query: str,
         top_k: int = 5,
-        score_threshold: float = 0.75
+        score_threshold: float = 0.75,
+        query_vector: list["float"] | None = None
     ) -> list[dict]:
 
-    vector = create_embedding(query)
+    if query_vector is None:
+        query_vector = create_embedding(query)
 
     results = search(
-        vector,
+        query_vector,
         top_k= top_k
     )
 

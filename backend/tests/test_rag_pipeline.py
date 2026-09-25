@@ -23,3 +23,14 @@ for i, source in enumerate(result["sources"], start = 1):
     print("Source:", source["score"])
     print("Page:", source["page"])
     print("Text:", source["text"])
+
+print("\n" + "=" * 60)
+print("TRACE")
+print("=" * 60)
+
+
+for span_record in result["trace"]:
+
+    print("\nStage:", span_record["name"])
+    print("Status:", span_record["status"])
+    print("Duration:", span_record["duration_ms"], "ms")
