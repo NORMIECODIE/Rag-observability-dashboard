@@ -4,6 +4,8 @@ from app.rag.pipeline import run_rag
 question = input("Enter your question: ")
 
 result = run_rag(question)
+print("\nTrace ID:")
+print(result["trace_id"])
 
 print("\n" + "=" * 60)
 print("ANSWER")
