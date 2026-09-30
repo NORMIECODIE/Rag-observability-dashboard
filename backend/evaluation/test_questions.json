@@ -1,0 +1,245 @@
+[
+  {
+    "question": "What is Natural Language Processing?",
+    "expected_answer": "Natural Language Processing (NLP) is a subfield or branch of Artificial Intelligence focused on enabling computers and machines to understand and process human language.",
+    "expected_sources": ["page 1"],
+    "difficulty": "easy"
+  },
+  {
+    "question": "What does NLP stand for?",
+    "expected_answer": "NLP stands for Natural Language Processing.",
+    "expected_sources": ["page 1"],
+    "difficulty": "easy"
+  },
+  {
+    "question": "What field of technology is NLP a part of?",
+    "expected_answer": "NLP is a subfield or branch of Artificial Intelligence.",
+    "expected_sources": ["page 1"],
+    "difficulty": "easy"
+  },
+  {
+    "question": "What is the main goal of Natural Language Processing?",
+    "expected_answer": "The goal of NLP is to enable computers and machines to understand and process human languages.",
+    "expected_sources": ["page 1"],
+    "difficulty": "easy"
+  },
+  {
+    "question": "What type of language does NLP help computers process?",
+    "expected_answer": "NLP helps computers process human language.",
+    "expected_sources": ["page 1"],
+    "difficulty": "easy"
+  },
+  {
+    "question": "What is one purpose of NLP?",
+    "expected_answer": "One purpose of NLP is to enable computers to understand and process human language.",
+    "expected_sources": ["page 1"],
+    "difficulty": "easy"
+  },
+  {
+    "question": "Is NLP related to Artificial Intelligence?",
+    "expected_answer": "Yes. NLP is a subfield or branch of Artificial Intelligence.",
+    "expected_sources": ["page 1"],
+    "difficulty": "easy"
+  },
+  {
+    "question": "What does NLP enable machines to do?",
+    "expected_answer": "NLP enables machines to understand and process human languages.",
+    "expected_sources": ["page 1"],
+    "difficulty": "easy"
+  },
+  {
+    "question": "What kind of language understanding is NLP concerned with?",
+    "expected_answer": "NLP is concerned with enabling computers and machines to understand and process human language.",
+    "expected_sources": ["page 1"],
+    "difficulty": "easy"
+  },
+  {
+    "question": "Give examples of tasks that NLP systems can perform.",
+    "expected_answer": "Examples include translation, spell checking, and topic classification.",
+    "expected_sources": ["page 1"],
+    "difficulty": "easy"
+  },
+
+  {
+    "question": "What are some applications of Natural Language Processing?",
+    "expected_answer": "Applications of NLP include language translation, spell checking, topic classification, chatbots, question answering, and text summarization.",
+    "expected_sources": ["page 1", "page 2"],
+    "difficulty": "medium"
+  },
+  {
+    "question": "How can NLP be used for language translation?",
+    "expected_answer": "NLP can be used to automatically perform language translation by processing human language.",
+    "expected_sources": ["page 1"],
+    "difficulty": "medium"
+  },
+  {
+    "question": "How can NLP help with spelling?",
+    "expected_answer": "NLP can be used for spell checking.",
+    "expected_sources": ["page 1"],
+    "difficulty": "medium"
+  },
+  {
+    "question": "What is topic classification in the context of NLP?",
+    "expected_answer": "Topic classification is an NLP task that automatically classifies text according to its topic.",
+    "expected_sources": ["page 1"],
+    "difficulty": "medium"
+  },
+  {
+    "question": "What are chatbots an example of?",
+    "expected_answer": "Chatbots are an application of Natural Language Processing.",
+    "expected_sources": ["page 2"],
+    "difficulty": "medium"
+  },
+  {
+    "question": "What is question answering in NLP?",
+    "expected_answer": "Question answering is an NLP application in which systems process questions and provide answers using human language.",
+    "expected_sources": ["page 2"],
+    "difficulty": "medium"
+  },
+  {
+    "question": "What is text summarization?",
+    "expected_answer": "Text summarization is an NLP application that processes text to produce a summary.",
+    "expected_sources": ["page 2"],
+    "difficulty": "medium"
+  },
+  {
+    "question": "How can NLP be used to process text automatically?",
+    "expected_answer": "NLP can automatically perform tasks such as translation, spell checking, topic classification, question answering, and text summarization.",
+    "expected_sources": ["page 1", "page 2"],
+    "difficulty": "medium"
+  },
+  {
+    "question": "Which NLP applications are related to understanding user questions?",
+    "expected_answer": "Question answering and chatbots are NLP applications related to processing and responding to user language.",
+    "expected_sources": ["page 2"],
+    "difficulty": "medium"
+  },
+  {
+    "question": "What types of automated language tasks are described in the document?",
+    "expected_answer": "The document describes tasks and applications including translation, spell checking, topic classification, chatbots, question answering, and summarization.",
+    "expected_sources": ["page 1", "page 2"],
+    "difficulty": "medium"
+  },
+
+  {
+    "question": "How does NLP allow machines to work with human language?",
+    "expected_answer": "NLP provides techniques and applications that enable computers and machines to understand and process human language.",
+    "expected_sources": ["page 1"],
+    "difficulty": "difficult"
+  },
+  {
+    "question": "A system automatically converts text from one human language to another. Which NLP application does this represent?",
+    "expected_answer": "It represents language translation, which is an application of NLP.",
+    "expected_sources": ["page 1"],
+    "difficulty": "difficult"
+  },
+  {
+    "question": "A system determines the subject or category of a piece of text. Which NLP task is relevant?",
+    "expected_answer": "Topic classification is the relevant NLP task.",
+    "expected_sources": ["page 1"],
+    "difficulty": "difficult"
+  },
+  {
+    "question": "A system reads a long piece of text and produces a shorter version containing its main information. What NLP application is this?",
+    "expected_answer": "This is text summarization.",
+    "expected_sources": ["page 2"],
+    "difficulty": "difficult"
+  },
+  {
+    "question": "A user communicates with a computer using natural language and receives responses. Which NLP application is relevant?",
+    "expected_answer": "Chatbots and question-answering systems are relevant NLP applications.",
+    "expected_sources": ["page 2"],
+    "difficulty": "difficult"
+  },
+  {
+    "question": "Why can NLP be considered an Artificial Intelligence technology?",
+    "expected_answer": "NLP is considered an AI technology because it focuses on enabling computers and machines to understand and process human language.",
+    "expected_sources": ["page 1"],
+    "difficulty": "difficult"
+  },
+  {
+    "question": "How are translation, spell checking, and topic classification related?",
+    "expected_answer": "They are examples of tasks that NLP systems can automatically perform on human language.",
+    "expected_sources": ["page 1"],
+    "difficulty": "difficult"
+  },
+  {
+    "question": "How do chatbots and question-answering systems demonstrate the use of NLP?",
+    "expected_answer": "They demonstrate NLP by using systems that can process human language and provide responses to users.",
+    "expected_sources": ["page 2"],
+    "difficulty": "difficult"
+  },
+  {
+    "question": "What common capability connects translation, classification, and summarization?",
+    "expected_answer": "They all involve automatically processing human language using NLP techniques.",
+    "expected_sources": ["page 1", "page 2"],
+    "difficulty": "difficult"
+  },
+  {
+    "question": "If an application needs to automatically understand human-written language, which technology described in the document is relevant and why?",
+    "expected_answer": "Natural Language Processing is relevant because it focuses on enabling computers and machines to understand and process human language.",
+    "expected_sources": ["page 1"],
+    "difficulty": "difficult"
+  },
+
+  {
+    "question": "What was the stock price of the author's company in 2020?",
+    "expected_answer": "Not available in the documents.",
+    "expected_sources": [],
+    "difficulty": "unanswerable"
+  },
+  {
+    "question": "Who invented Natural Language Processing?",
+    "expected_answer": "Not available in the documents.",
+    "expected_sources": [],
+    "difficulty": "unanswerable"
+  },
+  {
+    "question": "What year was NLP invented?",
+    "expected_answer": "Not available in the documents.",
+    "expected_sources": [],
+    "difficulty": "unanswerable"
+  },
+  {
+    "question": "Which programming language was used to create the NLP document?",
+    "expected_answer": "Not available in the documents.",
+    "expected_sources": [],
+    "difficulty": "unanswerable"
+  },
+  {
+    "question": "What is the author's home address?",
+    "expected_answer": "Not available in the documents.",
+    "expected_sources": [],
+    "difficulty": "unanswerable"
+  },
+  {
+    "question": "How many employees work for the organization discussed in the document?",
+    "expected_answer": "Not available in the documents.",
+    "expected_sources": [],
+    "difficulty": "unanswerable"
+  },
+  {
+    "question": "What is the annual revenue of the company mentioned in the document?",
+    "expected_answer": "Not available in the documents.",
+    "expected_sources": [],
+    "difficulty": "unanswerable"
+  },
+  {
+    "question": "What was the price of Bitcoin when the document was written?",
+    "expected_answer": "Not available in the documents.",
+    "expected_sources": [],
+    "difficulty": "unanswerable"
+  },
+  {
+    "question": "Who is the CEO of the company mentioned in the document?",
+    "expected_answer": "Not available in the documents.",
+    "expected_sources": [],
+    "difficulty": "unanswerable"
+  },
+  {
+    "question": "What is the author's phone number?",
+    "expected_answer": "Not available in the documents.",
+    "expected_sources": [],
+    "difficulty": "unanswerable"
+  }
+]
