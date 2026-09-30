@@ -1,17 +1,22 @@
 from app.observability.mongodb import traces_collection
 
 
+# Printing the database and collection
 print("Database:", traces_collection.database.name)
 print("Collection:", traces_collection.name)
 
+
+
 print("\nSearching for trace...")
 
+# Finding the trace
 trace = traces_collection.find_one(
     {
-        "trace_id": "69f525b1-d980-4e07-8ad0-76e949bdfee9"
+        "trace_id": "7b3ee699-26b9-4e60-8c77-94f1ef16a7ee"
     }
 )
 
+# Checking if the trace is found
 if trace:
     print("\nTrace found!")
     print("--------------------------------")
@@ -23,7 +28,9 @@ if trace:
 
     print("\nSpans:")
 
+    # Iterating through the spans
     for span in trace.get("spans", []):
+        # Printing the spans
         print(
             f"- {span.get('name')} | "
             f"Status: {span.get('status')} | "
@@ -31,4 +38,5 @@ if trace:
         )
 
 else:
+    # If the trace is not found
     print("\nNo trace found.")
