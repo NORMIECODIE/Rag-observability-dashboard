@@ -51,7 +51,9 @@ for index, text in enumerate(documents, start=1):
         id=index,
         vector=vector,
         payload={
-            "text": text
+            "text": text,
+        "category": "cybersecurity",
+        "source": "day4_test"
         },
     )
 

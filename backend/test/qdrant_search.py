@@ -48,3 +48,5 @@ print("\nSearch Results:")
 for result in results:
     print(f"\nSimilarity: {result.score:.4f}")
     print(f"Text: {result.payload['text']}")
+    print(f"Category: {result.payload['category']}")
+    print(f"Source: {result.payload['source']}")
