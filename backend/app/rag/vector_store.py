@@ -1,14 +1,14 @@
 from qdrant_client import QdrantClient
 from qdrant_client.models import Distance, VectorParams, PointStruct
-from app.config import settings
+import os
 
 
 
 COLLECTION_NAME = "rag_documents"
 VECTOR_SIZE = 3072
 
-
-client = QdrantClient(url=settings.qdrant_url)
+QDRANT_URL = os.getenv("QDRANT_URL", "http://localhost:6333")
+client = QdrantClient(url=QDRANT_URL)
 
 
 def create_collection():

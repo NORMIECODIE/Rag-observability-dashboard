@@ -1,0 +1,31 @@
+﻿
+services:
+  backend:
+    build:
+      context: ./backend
+    container_name: ragobs-backend
+    env_file:
+      - ./backend/.env
+    environment:
+      QDRANT_URL: http://infallible_maxwell:6333
+      MONGODB_URL: mongodb://ragobs-mongo:27017
+    ports:
+      - "8000:8000"
+    networks:
+      - ragobs-network
+
+  frontend:
+    build:
+      context: ./frontend
+    container_name: ragobs-frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - backend
+    networks:
+      - ragobs-network
+
+networks:
+  ragobs-network:
+    external: true
+    name: ragobs-network

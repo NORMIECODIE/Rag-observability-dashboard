@@ -1,0 +1,79 @@
+/* Cost statistics */
+.cost-stats {
+  margin-top: -20px;
+}
+
+.stat-card small {
+  display: block;
+  margin-top: 10px;
+  color: #6b7280;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* Token usage details */
+.usage-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin: 16px 0 24px;
+}
+
+.usage-grid > div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px;
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 8px;
+  min-width: 0;
+}
+
+.usage-grid span {
+  color: #6b7280;
+  font-size: 12px;
+}
+
+.usage-grid strong {
+  font-size: 15px;
+  overflow-wrap: anywhere;
+}
+
+.span-section > h3 {
+  margin-top: 24px;
+  margin-bottom: 12px;
+}
+
+@media (max-width: 800px) {
+  .usage-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 450px) {
+  .usage-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+
+.historical-section {
+  margin-bottom: 35px;
+}
+
+.historical-stats {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 800px) {
+  .historical-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 500px) {
+  .historical-stats {
+    grid-template-columns: 1fr;
+  }
+}

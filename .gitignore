@@ -2,3 +2,17 @@
 __pycache__/
 *.pyc
 .env
+documents/*
+!documents/.gitkeep
+# Frontend dependencies and build output
+frontend/node_modules/
+frontend/dist/
+
+# Environment and local configuration
+.env
+.env.*
+!.env.example
+
+# Python test and tooling caches
+.pytest_cache/
+.mypy_cache/
