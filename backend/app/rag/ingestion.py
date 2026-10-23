@@ -6,7 +6,12 @@ from app.rag.chunker import chunk_text
 from app.rag.embeddings import create_embedding
 from app.rag.vector_store import create_collection, upsert_chunk
 
-def ingest(pdf_path: str):
+# Ingest the PDF into the RAG system
+def ingest(
+        pdf_path: str,
+        chunk_size: int = 500,
+        overlap: int = 100
+        ):
 
     print("Loading PDF....")
 
@@ -22,7 +27,9 @@ def ingest(pdf_path: str):
         all_chunks += chunk_text(
             p["text"],
             p["document"],
-            p["page"]
+            p["page"],
+            chunk_size = chunk_size,
+            overlap = overlap
         )
 
     print("Generating embeddings + Uploading to Qdrant....")
@@ -46,4 +53,13 @@ def ingest(pdf_path: str):
 
 if __name__ == "__main__":
 
-    ingest(sys.argv[1])
+    pdf_path = sys.argv[1]
+
+    chunk_size = int(sys.argv[2]) if len(sys.argv) > 2 else 500
+    overlap = int(sys.argv[3]) if len(sys.argv) > 3 else 100
+
+    ingest(
+        pdf_path,
+        chunk_size = chunk_size,
+        overlap = overlap
+    )

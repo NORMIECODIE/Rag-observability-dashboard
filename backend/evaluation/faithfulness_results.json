@@ -1,0 +1,32 @@
+[
+  {
+    "question": "What is Natural Language Processing?",
+    "chunk_size": 300,
+    "overlap": 50,
+    "top_k": 3,
+    "retrieved_pages": [
+      "page 1",
+      "page 1",
+      "page 1"
+    ],
+    "context_precision": 1.0,
+    "answer": "Based on the provided context, Natural Language Processing (or NLP) is a sub-field and branch of Artificial Intelligence (AI) that enables computers and machines to understand, process, and make sense of human languages and text.",
+    "faithfulness": 1.0
+  },
+  {
+    "question": "What is Natural Language Processing?",
+    "chunk_size": 300,
+    "overlap": 50,
+    "top_k": 5,
+    "retrieved_pages": [
+      "page 1",
+      "page 1",
+      "page 1",
+      "page 2",
+      "page 2"
+    ],
+    "context_precision": 0.6,
+    "answer": "Based on the provided context, Natural Language Processing (NLP) is a sub-field and branch of Artificial Intelligence (AI) focused on enabling computers and machines to understand, make sense of, and process human languages.",
+    "faithfulness": 1.0
+  }
+]

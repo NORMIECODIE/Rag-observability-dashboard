@@ -1,0 +1,54 @@
+[
+  {
+    "question": "What is the main goal of Natural Language Processing?",
+    "chunk_size": 300,
+    "overlap": 50,
+    "top_k": 3,
+    "retrieved_pages": [
+      "page 1",
+      "page 1"
+    ],
+    "context_precision": 1.0,
+    "answer": "Based on the provided context, the goal of Natural Language Processing (NLP) is to build systems that can make sense of text and automatically perform tasks like translation, spell check, or topic classification.",
+    "faithfulness": 1.0
+  },
+  {
+    "question": "What type of language does NLP help computers process?",
+    "chunk_size": 300,
+    "overlap": 50,
+    "top_k": 3,
+    "retrieved_pages": [
+      "page 1",
+      "page 1"
+    ],
+    "context_precision": 1.0,
+    "answer": "Based on the provided context, NLP helps computers process human languages.",
+    "faithfulness": 1.0
+  },
+  {
+    "question": "What is the main goal of Natural Language Processing?",
+    "chunk_size": 300,
+    "overlap": 50,
+    "top_k": 5,
+    "retrieved_pages": [
+      "page 1",
+      "page 1"
+    ],
+    "context_precision": 1.0,
+    "answer": "Based on the provided context, the goal of Natural Language Processing (NLP) is to build systems that can make sense of text and automatically perform tasks like translation, spell check, or topic classification.",
+    "faithfulness": 1.0
+  },
+  {
+    "question": "What type of language does NLP help computers process?",
+    "chunk_size": 300,
+    "overlap": 50,
+    "top_k": 5,
+    "retrieved_pages": [
+      "page 1",
+      "page 1"
+    ],
+    "context_precision": 1.0,
+    "answer": "Based on the provided context, NLP helps computers process human languages (or human language).",
+    "faithfulness": 1.0
+  }
+]

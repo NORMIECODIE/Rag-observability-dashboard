@@ -16,6 +16,8 @@ def retrieve(
         top_k= top_k
     )
 
+    
+
     return [
         {
             "chunk_id": r.id,

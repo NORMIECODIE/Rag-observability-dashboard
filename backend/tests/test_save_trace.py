@@ -1,7 +1,12 @@
+import uuid
+
 from app.observability.trace_store import save_trace
 
+trace_id = f"test-trace-{uuid.uuid4()}"
+
+# Saving the trace
 save_trace(
-    trace_id="test-trace-123",
+    trace_id=trace_id,
     question="MongoDB test question",
     answer="MongoDB test answer",
     spans=[
@@ -14,4 +19,5 @@ save_trace(
     status="success"
 )
 
-print("Test trace saved!")
+# Printing the trace
+print(f"Test trace saved! Trace ID: {trace_id}")

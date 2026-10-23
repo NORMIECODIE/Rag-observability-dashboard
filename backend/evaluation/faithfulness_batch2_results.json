@@ -1,0 +1,56 @@
+[
+  {
+    "question": "What does NLP stand for?",
+    "chunk_size": 300,
+    "overlap": 50,
+    "top_k": 3,
+    "retrieved_pages": [
+      "page 1",
+      "page 1"
+    ],
+    "context_precision": 1.0,
+    "answer": "Based on the provided context, NLP stands for Natural Language Processing.",
+    "faithfulness": 1.0
+  },
+  {
+    "question": "What field of technology is NLP a part of?",
+    "chunk_size": 300,
+    "overlap": 50,
+    "top_k": 3,
+    "retrieved_pages": [
+      "page 1",
+      "page 1",
+      "page 1"
+    ],
+    "context_precision": 1.0,
+    "answer": "Based on the provided context, NLP is a branch of Artificial Intelligence (AI) and a sub-field of AI.",
+    "faithfulness": 1.0
+  },
+  {
+    "question": "What does NLP stand for?",
+    "chunk_size": 300,
+    "overlap": 50,
+    "top_k": 5,
+    "retrieved_pages": [
+      "page 1",
+      "page 1"
+    ],
+    "context_precision": 1.0,
+    "answer": "Based on the provided context, NLP stands for Natural Language Processing.",
+    "faithfulness": 1.0
+  },
+  {
+    "question": "What field of technology is NLP a part of?",
+    "chunk_size": 300,
+    "overlap": 50,
+    "top_k": 5,
+    "retrieved_pages": [
+      "page 1",
+      "page 1",
+      "page 1"
+    ],
+    "context_precision": 1.0,
+    "answer": "Based on the provided context, NLP is a branch of Artificial Intelligence (AI) and a sub-field of AI.",
+    "faithfulness": 1.0
+  }
+]
