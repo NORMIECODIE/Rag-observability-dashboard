@@ -1,155 +1,60 @@
-import uuid 
 
+import uuid
 
-def recursive_split(
-        text: str,
-        chunk_size: int,
-        separators: list[str]
-) -> list[str]:
-
-    if len(text) <= chunk_size:
-        return [text.strip()]
-
-    if not separators:
-        return [
-            text[i:i + chunk_size].strip()
-            for i in range(0, len(text), chunk_size)
-        ]
-
-    separator = separators[0]
-
-    parts = text.split(separator)
-
-    chunks = []
-    current = ""
-
-    for part in parts:
-
-        part = part.strip()
-
-        if not part:
-            continue
-
-        if current:
-            candidate = current + separator + part
-        else:
-            candidate = part
-
-        if len(candidate) <= chunk_size:
-
-            current = candidate
-
-        else:
-
-            if current:
-                chunks.append(current.strip())
-
-            if len(part) > chunk_size:
-
-               smaller_chunks = recursive_split(
-                   part,
-                   chunk_size,
-                   separators[1:]
-               )
-
-               chunks.extend(smaller_chunks)
-
-               current = ""
-
-            else:
-
-                current = part
-
-    if current:
-
-        chunks.append(current.strip())
-
-    return chunks
-
-
-
-def create_overlap_chunks(
-        chunks: list[str],
-        overlap: int,
-        chunk_size: int
-) -> list[str]:
-
-        if not chunks:
-            return []
-
-        if overlap <= 0:
-            return chunks
-
-
-        result = []
-
-        for i, chunk in enumerate(chunks):
-
-             if i == 0:
-                 result.append(chunk)
-                 continue
-             previous = chunks[i - 1]
-
-             overlap_text = previous[-overlap:]
-
-             available_space = chunk_size - len(overlap_text) -1
-
-             if available_space > 0:
-
-                 chunk = chunk[:available_space]
-
-
-                 combined = overlap_text + " " + chunk
-
-             else:
-
-                combined = chunk[:chunk_size]
-
-             result.append(combined.strip())
-
-        return result 
-             
 
 def chunk_text(
-        text: str,
-        document: str,
-        page: int,
-        chunk_size: int = 500,
-        overlap: int = 100
+    text: str,
+    document: str,
+    page: int,
+    chunk_size: int = 500,
+    overlap: int = 100,
 ) -> list[dict]:
+    """Split text into bounded, overlapping chunks."""
 
-    separators = [
-        "\n\n",
-        "\n",
-        ".",
-        ""
-    ]
+    if chunk_size <= 0:
+        raise ValueError("chunk_size must be greater than 0")
 
-    pieces = recursive_split(
-        text= text,
-        chunk_size = chunk_size,
-        separators = separators
-    )
+    if overlap < 0 or overlap >= chunk_size:
+        raise ValueError("overlap must be >= 0 and less than chunk_size")
 
-    pieces = create_overlap_chunks(
-        chunks = pieces,
-        overlap = overlap,
-        chunk_size = chunk_size
-    )
+    text = " ".join(text.split())
 
+    if not text:
+        return []
 
     chunks = []
+    start = 0
 
+    while start < len(text):
+        end = min(start + chunk_size, len(text))
 
-    for piece in pieces:
+        # Prefer ending at a word boundary when more text remains.
+        if end < len(text):
+            boundary = text.rfind(" ", start, end)
+            if boundary > start:
+                end = boundary
 
-        chunks.append(
-            {
+        piece = text[start:end].strip()
+
+        if piece:
+            chunks.append({
                 "chunk_id": str(uuid.uuid4()),
                 "document_id": document,
                 "page": page,
-                "text": piece
-            }
-        )
+                "text": piece,
+            })
+
+        if end >= len(text):
+            break
+
+        # Move forward while retaining the requested overlap.
+        next_start = max(start + 1, end - overlap)
+
+        # Start at a word boundary if possible.
+        boundary = text.find(" ", next_start, end)
+        if boundary != -1:
+            next_start = boundary + 1
+
+        start = next_start
 
     return chunks

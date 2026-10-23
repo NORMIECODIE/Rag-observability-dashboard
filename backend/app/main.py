@@ -1,7 +1,12 @@
+
 from fastapi import FastAPI
+
 from app.llm.client import ask_llm
 from app.config import settings
 from app.api.routes_chat import router as chat_router
+from app.api.routes_traces import router as traces_router
+
+from app.api.routes_matrics import router as metrics_router
 
 app = FastAPI(title="RAG Observability API")
 
@@ -10,8 +15,8 @@ app = FastAPI(title="RAG Observability API")
 def root():
     return {
         "message": "RAG Observability API",
-        "qdrant_url": settings.qdrant_url
-        }
+        "qdrant_url": settings.qdrant_url,
+    }
 
 
 @app.get("/ask")
@@ -20,13 +25,10 @@ def ask(question: str):
 
     return {
         "question": question,
-        "answer": answer
+        "answer": answer,
     }
 
-@app.get("/")
-def root():
-    return{
-        "message": "RAG Observability API"
-    }
 
 app.include_router(chat_router)
+app.include_router(traces_router)
+app.include_router(metrics_router)

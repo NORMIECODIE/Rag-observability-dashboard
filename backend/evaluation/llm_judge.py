@@ -111,10 +111,11 @@ def judge(question: str, context: str, answer: str) -> dict:
         "reason",
     }
 
-    if set(result.keys()) != required_keys:
+    missing_keys = required_keys - set(result.keys())
+
+    if missing_keys:
         raise ValueError(
-            f"Expected exactly these fields: {sorted(required_keys)}. "
-            f"Received: {sorted(result.keys())}"
+            f"Judge response is missing required fields: {sorted(missing_keys)}"
         )
 
     for key in ("faithfulness", "relevance", "completeness"):
