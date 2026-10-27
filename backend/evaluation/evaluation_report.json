@@ -5,23 +5,12 @@
   "queries_without_scores": 12,
   "avg_faithfulness": 1.0,
   "avg_relevance": 0.9857,
-  "avg_completeness": 0.9571,
-  "avg_rag_latency_seconds": 1.8687,
-  "avg_judge_latency_seconds": 0.9358,
+  "avg_completeness": 0.9643,
+  "avg_rag_latency_seconds": 1.8643,
+  "avg_judge_latency_seconds": 0.9959,
   "total_cost_usd": null,
   "cost_status": "Unavailable: verified cost data is not available for every query",
   "results": [
-    {
-      "dataset_index": 1,
-      "question": "What is Natural Language Processing?",
-      "faithfulness": 1.0,
-      "relevance": 1.0,
-      "completeness": 0.8,
-      "reason": "The answer accurately captures the definition of NLP from the context with high faithfulness and relevance. It misses some additional details about its goals (like performing tasks such as translation or text classification), which slightly lowers completeness.",
-      "rag_latency_seconds": 2.0614,
-      "judge_latency_seconds": 0.8692,
-      "cost_usd": null
-    },
     {
       "dataset_index": 2,
       "question": "What does NLP stand for?",
@@ -450,6 +439,17 @@
       "rag_latency_seconds": 1.3849,
       "judge_latency_seconds": 0,
       "cost_usd": null
+    },
+    {
+      "dataset_index": 1,
+      "question": "What is Natural Language Processing?",
+      "faithfulness": 1.0,
+      "relevance": 1.0,
+      "completeness": 1.0,
+      "reason": "The answer accurately and comprehensively defines Natural Language Processing using only the details provided in the context, staying fully faithful and directly addressing the question.",
+      "rag_latency_seconds": 1.8857,
+      "judge_latency_seconds": 3.2728,
+      "cost_usd": 0.0002749
     }
   ]
 }

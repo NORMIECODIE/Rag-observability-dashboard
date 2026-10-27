@@ -1,0 +1,681 @@
+/* ==========================================================
+   Dashboard layout and components
+   Design tokens (colors, fonts) live in index.css
+   ========================================================== */
+
+/* ---------- Page shell ---------- */
+.app {
+  display: grid;
+  grid-template-columns: 248px minmax(0, 1fr);
+  gap: 20px;
+  padding: 20px;
+  max-width: 1520px;
+  margin: auto;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  min-width: 0;
+}
+
+.app-root-col {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-width: 0;
+}
+
+.glass {
+  background: var(--card);
+  border: 1px solid var(--edge);
+  border-radius: 26px;
+  backdrop-filter: blur(22px) saturate(1.4);
+  box-shadow: var(--shadow);
+}
+
+/* ---------- Sidebar ---------- */
+aside {
+  padding: 18px;
+  position: sticky;
+  top: 20px;
+  height: calc(100vh - 40px);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.brand {
+  display: flex;
+  gap: 11px;
+  align-items: center;
+}
+
+.brand b {
+  display: block;
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 15px;
+}
+
+.brand small {
+  color: var(--mut);
+  font-size: 11px;
+}
+
+.logo {
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  display: grid;
+  place-items: center;
+  color: #fff;
+  font-size: 20px;
+  background: linear-gradient(135deg, var(--violet), var(--coral));
+}
+
+nav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+nav button {
+  all: unset;
+  cursor: pointer;
+  padding: 11px 15px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--mut);
+}
+
+nav button:hover {
+  color: var(--ink);
+}
+
+nav button.on {
+  background: var(--navon);
+  color: var(--ink);
+  font-weight: 700;
+  box-shadow: 0 4px 14px rgba(109, 91, 246, 0.14);
+}
+
+button:focus-visible,
+input:focus-visible,
+select:focus-visible {
+  outline: 2px solid var(--violet);
+  outline-offset: 2px;
+}
+
+/* ---------- System status box ---------- */
+.sys {
+  margin-top: auto;
+  padding: 15px;
+  font-size: 12.5px;
+  border-radius: 20px;
+  background: var(--card);
+  border: 1px solid var(--edge);
+}
+
+.sys h4 {
+  margin: 0 0 8px;
+  font-size: 13px;
+}
+
+.sys p {
+  display: flex;
+  justify-content: space-between;
+  margin: 7px 0;
+}
+
+.sys small {
+  display: block;
+  margin-top: 8px;
+  font-size: 11px;
+  color: var(--mut);
+}
+
+.good { color: var(--teal);  font-weight: 700; }
+.bad  { color: var(--coral); font-weight: 700; }
+.warn { color: var(--amber); font-weight: 700; }
+
+/* ---------- Top bar ---------- */
+.top {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.top input {
+  flex: 1;
+  min-width: 0;
+  padding: 14px 22px;
+  font: inherit;
+  font-size: 14px;
+  color: var(--ink);
+  background: var(--card);
+  border: 1px solid var(--edge);
+  border-radius: 999px;
+}
+
+.top input::placeholder {
+  color: var(--mut);
+}
+
+.chip,
+.tg {
+  padding: 11px 16px;
+  border-radius: 999px;
+  background: var(--card);
+  border: 1px solid var(--edge);
+  font-size: 13px;
+  font-weight: 500;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  white-space: nowrap;
+  color: var(--ink);
+  cursor: default;
+}
+
+.tg {
+  cursor: pointer;
+  font: inherit;
+  font-size: 15px;
+}
+
+.dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--teal);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--teal) 25%, transparent);
+}
+
+.dot.off {
+  background: var(--amber);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--amber) 25%, transparent);
+}
+
+.banner {
+  padding: 12px 18px;
+  border-radius: 16px;
+  background: color-mix(in srgb, var(--amber) 22%, transparent);
+  border: 1px solid color-mix(in srgb, var(--amber) 55%, transparent);
+  font-size: 13.5px;
+}
+
+/* ---------- Heading ---------- */
+h1 {
+  margin: 6px 0 4px;
+  font-size: clamp(30px, 4.4vw, 48px);
+  letter-spacing: -0.035em;
+  font-weight: 700;
+  line-height: 1.05;
+}
+
+h1 em {
+  font-style: normal;
+  background: linear-gradient(90deg, var(--violet), var(--coral));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.sub {
+  margin: 0;
+  color: var(--mut);
+  font-size: 15px;
+}
+
+/* ---------- KPI cards ---------- */
+.kpis {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(215px, 1fr));
+  gap: 16px;
+}
+
+.kpi {
+  padding: 18px 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.kpi::after {
+  content: "";
+  position: absolute;
+  right: -30px;
+  top: -30px;
+  width: 110px;
+  height: 110px;
+  border-radius: 50%;
+  background: var(--c);
+  opacity: 0.16;
+  filter: blur(8px);
+}
+
+.kpi h3 {
+  margin: 0;
+  font-size: 13px;
+  color: var(--mut);
+  font-weight: 500;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.kpi .big {
+  font-size: 36px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  margin: 6px 0 0;
+  line-height: 1.1;
+}
+
+.kpi small {
+  font-size: 12px;
+  color: var(--mut);
+}
+
+.kpi .sp {
+  height: 38px;
+  margin-top: 10px;
+}
+
+/* ---------- Card grids ---------- */
+.g3 {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+/* minmax(0, ...) stops long content (like the JSON logs) from stretching the columns */
+.g2 {
+  display: grid;
+  grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr);
+  gap: 16px;
+}
+
+.card {
+  padding: 20px 22px;
+  min-width: 0;
+}
+
+.ch {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+}
+
+.ch h3 {
+  margin: 0;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.ch .n {
+  font-size: 12px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--violet) 16%, transparent);
+  color: var(--violet);
+  font-weight: 700;
+}
+
+.ch .s {
+  flex: 1;
+}
+
+.note {
+  font-size: 12px;
+  color: var(--mut);
+}
+
+/* ---------- Charts ---------- */
+svg.chart {
+  width: 100%;
+  height: auto;
+  display: block;
+  overflow: visible;
+}
+
+svg text {
+  fill: var(--mut);
+  font-size: 10.5px;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 12px;
+  font-size: 12px;
+}
+
+.chips span {
+  padding: 5px 12px;
+  border-radius: 999px;
+  background: var(--navon);
+}
+
+.chips b {
+  margin-left: 6px;
+}
+
+.rings {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  text-align: center;
+}
+
+.rings .rv {
+  font-family: 'Bricolage Grotesque', sans-serif;
+  font-size: 19px;
+  font-weight: 700;
+  fill: var(--ink);
+}
+
+.rings .rl {
+  font-size: 11.5px;
+  color: var(--mut);
+  text-transform: capitalize;
+  margin-top: -4px;
+}
+
+.mut {
+  color: var(--mut);
+}
+
+.sm {
+  font-size: 12px;
+  margin: 10px 0 0;
+}
+
+select {
+  font: inherit;
+  font-size: 13px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  color: var(--ink);
+  background: var(--navon);
+  border: 1px solid var(--edge);
+}
+
+/* ---------- Recent traces list ---------- */
+.tl {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  gap: 8px;
+  max-height: 410px;
+  overflow: auto;
+}
+
+.tl button {
+  all: unset;
+  box-sizing: border-box;
+  cursor: pointer;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 76px 1fr 66px 88px 48px;
+  gap: 12px;
+  align-items: center;
+  padding: 12px 16px;
+  font-size: 13px;
+  border-radius: 18px;
+  background: var(--navon);
+  border: 1px solid transparent;
+}
+
+.tl button:hover {
+  border-color: var(--line);
+}
+
+.tl button.sel {
+  border-color: var(--violet);
+  box-shadow: 0 6px 20px color-mix(in srgb, var(--violet) 22%, transparent);
+}
+
+.tl .id {
+  font-size: 11px;
+  padding: 3px 8px;
+  border-radius: 8px;
+  background: var(--line);
+  text-align: center;
+}
+
+.tl .q {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+.tl .ms,
+.tl .tm {
+  color: var(--mut);
+  font-size: 12px;
+}
+
+/* ---------- Status pills ---------- */
+.pill {
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 4px 11px;
+  border-radius: 999px;
+  text-align: center;
+  text-transform: capitalize;
+}
+
+.pill.success {
+  background: color-mix(in srgb, var(--teal) 20%, transparent);
+  color: var(--teal);
+}
+
+.pill.failure,
+.pill.error {
+  background: color-mix(in srgb, var(--coral) 20%, transparent);
+  color: var(--coral);
+}
+
+.pill.pending {
+  background: color-mix(in srgb, var(--amber) 22%, transparent);
+  color: var(--amber);
+}
+
+/* ---------- Trace details ---------- */
+.tabs {
+  display: flex;
+  gap: 2px;
+  flex-wrap: wrap;
+  margin-bottom: 14px;
+  padding: 4px;
+  border-radius: 999px;
+  background: var(--navon);
+  width: fit-content;
+  max-width: 100%;
+}
+
+.tabs button {
+  all: unset;
+  cursor: pointer;
+  padding: 7px 13px;
+  font-size: 12.5px;
+  border-radius: 999px;
+  color: var(--mut);
+}
+
+.tabs button.on {
+  background: linear-gradient(135deg, var(--violet), var(--coral));
+  color: #fff;
+  font-weight: 700;
+}
+
+dl {
+  display: grid;
+  grid-template-columns: 90px minmax(0, 1fr);
+  gap: 12px 10px;
+  margin: 0;
+  font-size: 13px;
+  align-items: start;
+}
+
+dt {
+  color: var(--mut);
+}
+
+dd {
+  margin: 0;
+  min-width: 0;
+  word-break: break-all;
+}
+
+.box {
+  padding: 10px 14px;
+  border-radius: 14px;
+  background: var(--navon);
+  word-break: normal;
+  overflow-wrap: anywhere;
+}
+
+/* JSON logs: wrap long lines instead of stretching the card */
+pre {
+  margin: 0;
+  padding: 13px;
+  border-radius: 14px;
+  background: var(--navon);
+  font-size: 11.5px;
+  overflow: auto;
+  max-height: 300px;
+  max-width: 100%;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.meter {
+  display: grid;
+  grid-template-columns: 100px 1fr 40px;
+  gap: 10px;
+  align-items: center;
+  font-size: 13px;
+  margin: 13px 0;
+  text-transform: capitalize;
+}
+
+.meter b {
+  text-align: right;
+}
+
+.trk {
+  height: 9px;
+  border-radius: 99px;
+  background: var(--line);
+  overflow: hidden;
+}
+
+.trk i {
+  display: block;
+  height: 100%;
+  border-radius: 99px;
+  background: linear-gradient(90deg, var(--violet), var(--coral));
+}
+
+/* ---------- Misc: empty state, API testing, settings ---------- */
+.empty {
+  color: var(--mut);
+  font-size: 14px;
+  margin: 6px 0;
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  align-items: center;
+  margin-bottom: 14px;
+}
+
+.btn {
+  all: unset;
+  cursor: pointer;
+  padding: 10px 20px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, var(--violet), var(--coral));
+  color: #fff;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.inp {
+  font: inherit;
+  font-size: 13px;
+  padding: 10px 16px;
+  border-radius: 14px;
+  color: var(--ink);
+  background: var(--navon);
+  border: 1px solid var(--edge);
+  min-width: 260px;
+}
+
+/* ---------- Mobile / tablet ---------- */
+@media (max-width: 1000px) {
+  .app {
+    grid-template-columns: minmax(0, 1fr);
+    padding: 14px;
+  }
+
+  aside {
+    position: static;
+    height: auto;
+  }
+
+  .sys {
+    display: none;
+  }
+
+  nav {
+    flex-direction: row;
+    overflow-x: auto;
+  }
+
+  nav button {
+    white-space: nowrap;
+  }
+
+  .g3,
+  .g2 {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .tl button {
+    grid-template-columns: 70px 1fr 88px;
+  }
+
+  .tl .ms,
+  .tl .tm {
+    display: none;
+  }
+}
+
+/* ---------- Scrollbars: slim, and visible only on hover ---------- */
+.tl,
+pre,
+nav {
+  scrollbar-width: thin;                      /* slim bar, no arrow buttons */
+  scrollbar-color: transparent transparent;   /* invisible by default */
+}
+
+.tl:hover,
+pre:hover,
+nav:hover {
+  scrollbar-color: color-mix(in srgb, var(--ink) 30%, transparent) transparent;
+}
+
+/* Page scrollbar on the far right: keep it, but make it subtle */
+html {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in srgb, var(--ink) 25%, transparent) transparent;
+}

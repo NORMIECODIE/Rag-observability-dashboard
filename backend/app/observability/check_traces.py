@@ -90,6 +90,9 @@ def main():
 
     print("\n" + "=" * 50)
 
+    print("\nRAW RETRIEVAL SPAN")
+    print(retrieval)
+
 
 if __name__ == "__main__":
     main()

@@ -16,7 +16,8 @@ def save_report(rows, dataset_size):
     """Save evaluation results and aggregate metrics safely."""
 
     scored_rows = [
-        row for row in rows
+        row
+        for row in rows
         if all(
             isinstance(row.get(key), (int, float))
             and not isinstance(row.get(key), bool)
@@ -40,6 +41,8 @@ def save_report(rows, dataset_size):
         ]
         return round(statistics.mean(values), 4) if values else None
 
+    all_costs_available = bool(rows) and len(known_costs) == len(rows)
+
     report = {
         "dataset_size": dataset_size,
         "completed_queries": len({
@@ -52,27 +55,24 @@ def save_report(rows, dataset_size):
         "avg_faithfulness": average("faithfulness", scored_rows),
         "avg_relevance": average("relevance", scored_rows),
         "avg_completeness": average("completeness", scored_rows),
-        "avg_rag_latency_seconds": average(
-            "rag_latency_seconds", rows
-        ),
-        "avg_judge_latency_seconds": average(
-            "judge_latency_seconds", rows
-        ),
+        "avg_rag_latency_seconds": average("rag_latency_seconds", rows),
+        "avg_judge_latency_seconds": average("judge_latency_seconds", rows),
         "total_cost_usd": (
             round(sum(known_costs), 6)
-            if rows and len(known_costs) == len(rows)
+            if all_costs_available
             else None
         ),
         "cost_status": (
             "Available"
-            if rows and len(known_costs) == len(rows)
-            else "Unavailable: verified cost data is not available for every query"
+            if all_costs_available
+            else (
+                "Unavailable: verified cost data is not available "
+                "for every query"
+            )
         ),
         "results": rows,
     }
 
-    # Write to a temporary file first, then replace the report.
-    # This reduces the risk of leaving a partially written JSON file.
     temp_path = REPORT_PATH.with_suffix(".tmp")
 
     with temp_path.open("w", encoding="utf-8") as file:
@@ -88,11 +88,18 @@ def run_full_eval():
         data = json.load(file)
 
     if not isinstance(data, list) or not data:
-        raise ValueError("The evaluation dataset must be a non-empty JSON list.")
+        raise ValueError(
+            "The evaluation dataset must be a non-empty JSON list."
+        )
+
+    if not all(isinstance(item, dict) for item in data):
+        raise ValueError(
+            "Every evaluation dataset item must be a JSON object."
+        )
 
     rows = []
 
-    # Load previously saved results.
+    # Load existing results so completed questions are not rerun.
     if REPORT_PATH.exists():
         try:
             with REPORT_PATH.open("r", encoding="utf-8") as file:
@@ -100,44 +107,55 @@ def run_full_eval():
 
             if isinstance(previous_report, dict):
                 saved_rows = previous_report.get("results", [])
+
                 if isinstance(saved_rows, list):
                     rows = [
-                        row for row in saved_rows
+                        row
+                        for row in saved_rows
                         if isinstance(row, dict)
                         and isinstance(row.get("dataset_index"), int)
+                        and not isinstance(row.get("dataset_index"), bool)
                         and 1 <= row["dataset_index"] <= len(data)
                     ]
-
-            if not isinstance(previous_report, dict):
+                else:
+                    print(
+                        "Warning: Existing report results are invalid. "
+                        "No saved results could be loaded."
+                    )
+            else:
                 print(
-                    "Warning: The existing report is null or invalid. "
+                    "Warning: Existing report is invalid. "
                     "No saved results could be loaded."
                 )
 
         except (json.JSONDecodeError, OSError) as error:
-            print(f"Warning: Could not read the previous report: {error}")
+            print(f"Warning: Could not read previous report: {error}")
             print("No saved results could be loaded.")
 
-    # Keep only the latest saved row for each dataset index.
+    # Keep the latest saved result for each question index.
     rows_by_index = {
         row["dataset_index"]: row
         for row in rows
     }
-    rows = list(rows_by_index.values())
 
+    rows = list(rows_by_index.values())
     completed_indexes = set(rows_by_index.keys())
 
     print(f"Dataset questions: {len(data)}")
-    print(f"Already completed: {len(completed_indexes)}")
+    print(f"Previously saved results retained: {len(rows)}")
+    print(f"Questions remaining: {len(data) - len(completed_indexes)}")
+
+    processed_this_run = 0
 
     for index, item in enumerate(data, start=1):
+        # Skip questions already present in the report.
         if index in completed_indexes:
             continue
 
-        question = item.get("question", "").strip()
+        question = item.get("question", "")
 
-        if not question:
-            print(f"Skipping question {index}: question text is empty.")
+        if not isinstance(question, str) or not question.strip():
+            print(f"Skipping question {index}: question is empty.")
 
             rows.append({
                 "dataset_index": index,
@@ -152,19 +170,26 @@ def run_full_eval():
             })
 
             save_report(rows, len(data))
-            completed_indexes.add(index)
+            processed_this_run += 1
             continue
+
+        question = question.strip()
 
         print(f"\nEvaluating question {index}/{len(data)}...")
 
         try:
-            # Step 1: Run retrieval and answer generation.
+            # Step 1: Run the RAG pipeline.
             start = time.perf_counter()
             result = run_rag(question)
             rag_latency = time.perf_counter() - start
 
             if not isinstance(result, dict):
-                raise ValueError("run_rag() did not return a dictionary.")
+                raise ValueError(
+                    "run_rag() did not return a dictionary."
+                )
+
+            print("RAG result keys:", list(result.keys()))
+            print("RAG generation cost:", result.get("cost_usd"))
 
             sources = result.get("sources") or []
 
@@ -176,90 +201,92 @@ def run_full_eval():
                 and source["text"].strip()
             )
 
+            # Accept only numeric, non-boolean costs.
+            cost_usd = result.get("cost_usd")
+
+            if (
+                not isinstance(cost_usd, (int, float))
+                or isinstance(cost_usd, bool)
+            ):
+                cost_usd = None
+
             # Step 2: Handle missing retrieved context.
             if not context.strip():
-                print("Warning: No context retrieved for this question.")
-                print(f"Question: {question}")
-                print("Skipping LLM judge for this question.")
+                print("Warning: No context retrieved.")
 
-                rows.append({
+                row = {
                     "dataset_index": index,
                     "question": question,
                     "faithfulness": None,
                     "relevance": None,
                     "completeness": None,
-                    "reason": "No retrieved context available for evaluation.",
+                    "reason": (
+                        "No retrieved context available for evaluation."
+                    ),
                     "rag_latency_seconds": round(rag_latency, 4),
                     "judge_latency_seconds": 0,
-                    "cost_usd": result.get("cost_usd"),
-                })
+                    "cost_usd": cost_usd,
+                }
 
-                save_report(rows, len(data))
-                completed_indexes.add(index)
-                print(f"Progress saved: {len(completed_indexes)} questions")
-                continue
+            else:
+                # Step 3: Validate the generated answer.
+                answer = result.get("answer")
 
-            # Step 3: Validate the generated answer.
-            answer = result.get("answer")
+                if not isinstance(answer, str) or not answer.strip():
+                    raise ValueError(
+                        "RAG pipeline returned an empty answer."
+                    )
 
-            if not isinstance(answer, str) or not answer.strip():
-                raise ValueError("RAG pipeline returned an empty answer.")
+                # Step 4: Evaluate the answer using the LLM judge.
+                start = time.perf_counter()
+                scores = judge(question, context, answer)
+                judge_latency = time.perf_counter() - start
 
-            # Step 4: Run the LLM judge.
-            start = time.perf_counter()
-            scores = judge(question, context, answer)
-            judge_latency = time.perf_counter() - start
+                print("Judge scores:", scores)
 
-            # Step 5: Save this question's result.
-            row = {
-                "dataset_index": index,
-                "question": question,
-                "faithfulness": scores["faithfulness"],
-                "relevance": scores["relevance"],
-                "completeness": scores["completeness"],
-                "reason": scores.get("reason", ""),
-                "rag_latency_seconds": round(rag_latency, 4),
-                "judge_latency_seconds": round(judge_latency, 4),
-                "cost_usd": result.get("cost_usd"),
-            }
+                row = {
+                    "dataset_index": index,
+                    "question": question,
+                    "faithfulness": scores["faithfulness"],
+                    "relevance": scores["relevance"],
+                    "completeness": scores["completeness"],
+                    "reason": scores.get("reason", ""),
+                    "rag_latency_seconds": round(rag_latency, 4),
+                    "judge_latency_seconds": round(judge_latency, 4),
+                    "cost_usd": cost_usd,
+                }
 
+            # Replace any previous row for this question, if present.
+            rows = [
+                saved
+                for saved in rows
+                if saved.get("dataset_index") != index
+            ]
             rows.append(row)
-            completed_indexes.add(index)
 
             report = save_report(rows, len(data))
+            processed_this_run += 1
 
-            print(
-                f"Completed {index}/{len(data)} | "
-                f"Faithfulness: {scores['faithfulness']:.2f} | "
-                f"Relevance: {scores['relevance']:.2f}"
-            )
-            print(
-                f"Progress saved: {report['completed_queries']} questions"
-            )
+            print(f"Saved question {index}.")
+            print(f"Cost for this RAG request: {cost_usd}")
+            print(f"Report total cost: {report['total_cost_usd']}")
+            print(f"Cost status: {report['cost_status']}")
 
         except Exception as error:
-            # Preserve completed results and stop on an unexpected error.
+            # Save completed results before stopping.
             save_report(rows, len(data))
-
             print(f"\nEvaluation stopped at question {index}.")
             print(f"Reason: {error}")
-            print("Completed results have been saved.")
-            print("Fix the error, then rerun to resume.")
+            print("Previously saved results were preserved.")
             return
 
-    # This is outside the loop, so the evaluation processes all questions.
     report = save_report(rows, len(data))
 
     print("\nEvaluation finished.")
-    print(
-        f"Scored questions: {report['scored_queries']}/{len(data)}"
-    )
-    print(f"Average faithfulness: {report['avg_faithfulness']}")
-    print(f"Average relevance: {report['avg_relevance']}")
-    print(f"Average completeness: {report['avg_completeness']}")
-    print(f"Average RAG latency: {report['avg_rag_latency_seconds']} seconds")
-    print(f"Average judge latency: {report['avg_judge_latency_seconds']} seconds")
-    print(f"Total cost: {report['total_cost_usd']}")
+    print(f"Questions processed this run: {processed_this_run}")
+    print(f"Scored questions in report: {report['scored_queries']}")
+    print(f"Total evaluation cost: {report['total_cost_usd']}")
+    print(f"Cost status: {report['cost_status']}")
     print(f"Report saved to: {REPORT_PATH}")
 
 
