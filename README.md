@@ -72,7 +72,7 @@ This project provides an observability layer for inspecting and evaluating these
           +----------------------+
 ```
 
-*Note: The diagram represents the high-level workflow; exact storage and instrumentation details depend on the current implementation.*
+
 
 ## Tech Stack
 
